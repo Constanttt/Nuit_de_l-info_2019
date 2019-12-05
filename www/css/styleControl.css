@@ -1,0 +1,12 @@
+
+#text_zone{
+    width:95%;
+    height:100px;
+    margin-bottom: 60px;
+}
+
+@media screen and (max-width:360px){
+    body{
+        font-size:25px !important;
+    }  
+}
