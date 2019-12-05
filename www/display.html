@@ -1,8 +1,14 @@
 <html>
     <head>
-            <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" type="text/css" href="style.css">
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            var socket = io.connect('http://localhost');
+            socket.on('display', display);
+            console.log(display);
+        </script>
     </head>
     <body>
-        <div id="message"><p>Bonsoir! je suis un tres long message ijiu erithreituher tuiht ui trih re tre ter ttretr tre</p></div>
+        <div id="message"><p></p></div>
     </body>
 </html>
