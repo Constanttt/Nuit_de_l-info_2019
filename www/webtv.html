@@ -1,17 +1,52 @@
 <html>
-  <body>
-    <div id="twitch-embed"></div>
-    
-    <script src="https://embed.twitch.tv/embed/v1.js"></script>
+    <head>
+        <script src="https://embed.twitch.tv/embed/v1.js"></script>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <div id="title">La webTV étudiante
+            <label class="switch">
+                <input type="checkbox" checked onclick="light()">
+                <span class="slider"></span>
+            </label>
+        </div>
 
-    <script type="text/javascript">
-      new Twitch.Embed("twitch-embed", {
-        width: 1280,
-        height: 720,
-        layout: "video",
-        channel: "sorurinn",
-      });
-    </script>
+        <script>
+            lit = 0;
+            function light(){
+                if (!lit){
+                    document.getElementById("chat_embed").src = "https://www.twitch.tv/embed/yogscast/chat";
+                    document.getElementById("title").style.color = "black";
+                    document.getElementById("title").style.backgroundColor= "white";
+                    lit = 1;
+                }
+                else {
+                    document.getElementById("chat_embed").src = "https://www.twitch.tv/embed/yogscast/chat/?darkpopout";
+                    document.getElementById("title").style.color = "white";
+                    document.getElementById("title").style.backgroundColor= "black";
+                    lit = 0;
+                }
+            }
+        </script>
+        
+        <div id="embed"></div>
 
-  </body>
+            <div id="video_embed"></div>
+            <script type="text/javascript">
+                new Twitch.Embed("video_embed", {
+                    width: "80%",
+                    height: "95%",
+                    layout: "video",
+                    channel: "yogscast"});
+            </script>
+
+            <iframe id="chat_embed"
+                width="20%"
+                height="95%"
+                frameborder="0"
+                src="https://www.twitch.tv/embed/yogscast/chat/?darkpopout">
+            </iframe>
+
+        </div>
+    </body>
 </html>
