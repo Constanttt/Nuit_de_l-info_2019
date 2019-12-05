@@ -1,0 +1,10 @@
+{
+  "name": "nuit de l info",
+  "version": "0.0.1",
+  "description": "Nom de la team",
+  "dependencies": {
+    "express": "^4.17.1",
+    "nodemon": "^2.0.1",
+    "socket.io": "^2.3.0"
+  }
+}

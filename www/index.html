@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>La jolie page</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <!--<script type="text/javascript" src="js/scripts.js"></script>-->
+</head>
+<body>
+    <center>
+        <h1>C'est beau</h1>
+        <button onclick="incrementer()">Incrementer</button>
+        <button onclick="decrementer()">Decrementer</button>
+        <button onclick="reset()">Retour a Zero</button>
+        <div id="numero">0</div>
+    </center>
+    <center>
+        <table style="border: 1px solid black;    border-collapse: collapse;">
+            <thead>
+                <tr><th style="border: 1px solid black;    border-collapse: collapse;">
+                    <button onclick="rouge()">Rouge</button>
+                    <button onclick="souligner()">Souligner</button>
+                    <button onclick="resettxt()">Reset le texte</button>
+                </th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="border: 1px solid black;    border-collapse: collapse;">
+                        <div id="editor" contenteditable="true" spellcheck="false">
+                            Ici
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </center>
+</body>
+<script>
+var socket = io.connect(); 
+
+function incrementer(){
+    socket.emit('incrementer');
+}
+
+function decrementer(){
+    socket.emit('decrementer');
+}
+
+function reset(){
+    socket.emit('reset');
+}
+
+socket.on('afficher', function(data){
+    document.getElementById("numero").innerHTML = data;
+});
+
+//document.getElementById("collaboration").addEventListener("keypress", collab);
+
+document.getElementById("editor").addEventListener("input", function() {
+    socket.emit('updatetext', document.getElementById('editor').innerHTML);
+}, false);
+
+function collab(){
+    socket.emit('updatetext', document.getElementById('collaboration').value);
+}
+
+function rouge(){
+    document.execCommand('styleWithCSS', false, true);
+    document.execCommand('foreColor', false, "#f00");
+}
+
+function souligner(){
+    document.execCommand("underline", false, null);
+}
+
+function resettxt(){
+    socket.emit('resettxt');
+}
+
+socket.on('afficherTexte', function(data){
+    document.getElementById("editor").innerHTML = data;
+});
+
+</script>
+</html>
