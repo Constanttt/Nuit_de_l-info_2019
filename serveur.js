@@ -8,6 +8,10 @@ app.get('/webtv', function(req, res){
     res.sendfile('www/webtv.html')
 });
 
+app.get('/webtv/control', function(req, res){
+    res.sendfile('www/control.html')
+});
+
 http.listen(3000, function(){
     console.log('listening on *:3000');
 });
