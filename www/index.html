@@ -6,82 +6,45 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>La jolie page</title>
     <script src="/socket.io/socket.io.js"></script>
-    <!--<script type="text/javascript" src="js/scripts.js"></script>-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
-    <center>
-        <h1>C'est beau</h1>
-        <button onclick="incrementer()">Incrementer</button>
-        <button onclick="decrementer()">Decrementer</button>
-        <button onclick="reset()">Retour a Zero</button>
-        <div id="numero">0</div>
-    </center>
-    <center>
-        <table style="border: 1px solid black;    border-collapse: collapse;">
-            <thead>
-                <tr><th style="border: 1px solid black;    border-collapse: collapse;">
-                    <button onclick="rouge()">Rouge</button>
-                    <button onclick="souligner()">Souligner</button>
-                    <button onclick="resettxt()">Reset le texte</button>
-                </th></tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td style="border: 1px solid black;    border-collapse: collapse;">
-                        <div id="editor" contenteditable="true" spellcheck="false">
-                            Ici
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </center>
+    <div id="messages"></div>
+    <form action="">
+        <label for="sendMsg">Message<input id="sendMsg" autocomplete="off" /></label><button id="sendMsg">Send</button>
+    </form>
+    <button id="chan1" onclick="gochan('chan1')">Channel1</button>
+    <button id="chan2" onclick="gochan('chan2')">Channel2</button>
 </body>
 <script>
-var socket = io.connect(); 
+    var socket = io(); 
+    
+    socket.on('connect', function(){
+		socket.emit('adduser', prompt("What's your name?"));
+	});
 
-function incrementer(){
-    socket.emit('incrementer');
-}
+    $(function () {
+        $('form').submit(function(){
+            var msg = $('#sendMsg').val();
+            if (msg != '') {
+                socket.emit('sendMsg', msg);
+                //writeMsg('', msg);
+                //$('#sendMsg').val('');
+            }
+            return false;
+        });
 
-function decrementer(){
-    socket.emit('decrementer');
-}
+        socket.on('showText', function(nick, msg){            
+            writeMsg(nick, msg);
+        });
+    });
+    
+    function gochan(v) {
+        socket.emit('changeRoom', v);
+    }
 
-function reset(){
-    socket.emit('reset');
-}
-
-socket.on('afficher', function(data){
-    document.getElementById("numero").innerHTML = data;
-});
-
-//document.getElementById("collaboration").addEventListener("keypress", collab);
-
-document.getElementById("editor").addEventListener("input", function() {
-    socket.emit('updatetext', document.getElementById('editor').innerHTML);
-}, false);
-
-function collab(){
-    socket.emit('updatetext', document.getElementById('collaboration').value);
-}
-
-function rouge(){
-    document.execCommand('styleWithCSS', false, true);
-    document.execCommand('foreColor', false, "#f00");
-}
-
-function souligner(){
-    document.execCommand("underline", false, null);
-}
-
-function resettxt(){
-    socket.emit('resettxt');
-}
-
-socket.on('afficherTexte', function(data){
-    document.getElementById("editor").innerHTML = data;
-});
-
+    function writeMsg(nick, msg) {
+        $('#messages').append($('<div><p>'+nick+'</p><p>'+msg+'</p></div>'));
+    }
 </script>
 </html>

@@ -8,30 +8,37 @@ http.listen(3000, function(){
 });
 var io = require('socket.io')(http);
 
-var count = 0;
-var text = "Ici";
+var usernames = {};
+
+var rooms = ['chan1','chan2'];
 
 io.on('connection', function(socket){
-    socket.on('incrementer', function(){
-        count++;
-        socket.broadcast.emit('afficher', count);
-        socket.emit('afficher', count);
+
+    socket.on('adduser', function(nick){
+        socket.username = nick;
+        socket.room = 'chan1';
+        usernames[nick] = nick;
+        socket.join('chan1');
+        socket.emit('showText', 'SERVER', 'Tu est connecté sur '+ socket.room);
+        socket.broadcast.to('chan1').emit('showText', 'SERVER', nick + ' c\'est connecté');
+        //socket.emit('updaterooms', rooms, 'chan1');
     });
 
-    socket.on('decrementer', function(){
-        count--;
-        socket.broadcast.emit('afficher', count);
-        socket.emit('afficher', count);
+    socket.on('sendMsg', function(m){
+        //socket.broadcast.to(socket.room).emit('showText', socket.username, m);
+        console.log(socket.room);
+        io.sockets.in(socket.room).emit('showText', socket.username, m);
     });
 
-    socket.on('reset', function(){
-        count = 0;
-        socket.broadcast.emit('afficher', count);
-        socket.emit('afficher', count);
-    });
+    socket.on('changeRoom', function(newroom){
+        if (socket.room != newroom) {
+            socket.leave(socket.room);
+            socket.join(newroom);
+            socket.emit('showText', 'SERVER', 'Tu est connecté sur '+ newroom);
+            socket.broadcast.to(newroom).emit('showText', 'SERVER', socket.username + ' c\'est connecté');
+            socket.room = newroom;
+        }
+		//socket.emit('updaterooms', rooms, newroom);
+	});
 
-    socket.on('updatetext', function(s){
-        text = s;
-        socket.broadcast.emit('afficherTexte', text);
-    });
 });
