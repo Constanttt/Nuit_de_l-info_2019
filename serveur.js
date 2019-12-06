@@ -38,7 +38,7 @@ io.on('connection', function(socket){
         socket.join('chan1');
         socket.emit('showText', 'SERVER', 'Tu est connecté sur '+ socket.room);
         socket.broadcast.to('chan1').emit('showText', 'SERVER', nick + ' c\'est connecté');
-        //socket.emit('updaterooms', rooms, 'chan1');
+        socket.broadcast.to('chan1').emit('createList', getAllUsers(socket));
     });
 
     socket.on('sendMsg', function(m){
@@ -47,19 +47,38 @@ io.on('connection', function(socket){
         io.sockets.in(socket.room).emit('showText', socket.username, m);
     });
 
-    socket.on('dmUser', function(n){
-        socket.broadcast.emit("debug", io.sockets);
+    socket.on('getUsers', function(){
+        arr = getAllUsers(socket);
+        socket.emit("createList", arr);
+    });
+
+    socket.on('dmUsers', function(clientId, msg){
+        console.log(clientId);
+        io.sockets.connected[clientId].emit('showText', "MP: " + socket.username, msg);
     });
 
     socket.on('changeRoom', function(newroom){
         if (socket.room != newroom) {
             socket.leave(socket.room);
             socket.join(newroom);
-            socket.emit('showText', 'SERVER', 'Tu est connecté sur '+ newroom);
+            socket.emit('showText', 'SERVER', 'Tu es connecté sur '+ newroom);
             socket.broadcast.to(newroom).emit('showText', 'SERVER', socket.username + ' c\'est connecté');
+            socket.broadcast.to(newroom).emit('createList', getAllUsers(socket));
             socket.room = newroom;
         }
-		//socket.emit('updaterooms', rooms, newroom);
 	});
 
 });
+
+function getAllUsers(socket) {
+    let arr = [];
+        var clients = io.sockets.adapter.rooms[socket.room].sockets;   
+        for (var clientId in clients ) {
+            let t = [];
+            var clientSocket = io.sockets.connected[clientId];
+            t[0] = clientId;
+            t[1] = clientSocket.username;
+            arr.push(t);
+       }
+    return arr;
+}

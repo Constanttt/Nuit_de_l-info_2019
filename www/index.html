@@ -67,6 +67,8 @@
                 </form>
         </div>
     </div>
+    <ul id="connectedUsers">
+    </ul>
     <script src="/Nuit_de_l-info_2019/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="/node_modules/"></script>
@@ -76,7 +78,21 @@
     var socket = io();
     
     socket.on('connect', function(){
-		socket.emit('adduser', prompt("Quel est ton nom?"));
+        socket.emit('adduser', prompt("Quel est ton nom?"));
+        socket.emit('getUsers');
+    });
+    
+    socket.on('createList', function(data){
+        let ul = document.getElementById("connectedUsers");
+        $("#connectedUsers").empty();
+        for (let i = 0; i < data.length; i++) {
+            let user = data[i];
+            let li = document.createElement("li");
+            li.setAttribute('id', user[0]);
+            //li.setAttribute('onclick', "dmUser("+user[0]+")");
+            li.appendChild(document.createTextNode(user[1]));
+            ul.appendChild(li);
+        }
 	});
 
     $(function () {
@@ -85,7 +101,7 @@
             if (msg != '') {
                 socket.emit('sendMsg', msg);
                 //writeMsg('', msg);
-                //$('#sendMsg').val('');
+                $('#sendMsg').val('');
             }
             return false;
         });
@@ -93,8 +109,16 @@
         socket.on('showText', function(nick, msg){            
             writeMsg(nick, msg);
         });
+        socket.on('debug', function(data){            
+            console.log(data);
+        });
     });
     
+    function dmUser(id) {
+        console.log(id);
+        socket.emit('dmUsers', id, prompt("Message"));
+    }
+
     function gochan(v) {
         socket.emit('changeRoom', v);
     }
@@ -102,5 +126,6 @@
     function writeMsg(nick, msg) {
         $('#messages').append($('<div><p>'+nick+'</p><p>'+msg+'</p></div>'));
     }
+    
 </script>
 </html>
