@@ -47,6 +47,10 @@ io.on('connection', function(socket){
         io.sockets.in(socket.room).emit('showText', socket.username, m);
     });
 
+    socket.on('dmUser', function(n){
+        socket.broadcast.emit("debug", io.sockets);
+    });
+
     socket.on('changeRoom', function(newroom){
         if (socket.room != newroom) {
             socket.leave(socket.room);
