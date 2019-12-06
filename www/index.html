@@ -57,15 +57,23 @@
     </nav>
     <div class=" page-content content">
         <div class=blanck-pad>
-            <div class="blank-screen"> 
+            <div class="blank-screen">
+                <div class=table-scroll>
                 <h1 class="h1 text-dark">Nom de l'appli</h1>
                 <h2 class="h3 text-dark">nom du salon</h2>
 
                 <div id="messages"></div>
-                <form action="">
-                    <label for="sendMsg">Message<input id="sendMsg" autocomplete="off" /></label><button id="sendMsg">Send</button>
-                </form>
-        </div>
+            </div>
+            <form action="">
+                <label for="sendMsg">Message :</label>
+                    <div class="input-group">
+                        <input id="sendMsg" autocomplete="off" />
+                        <div class="input-group-btn"></div>
+                        <button class=" btn btn-light btn-default" id="sendMsg">Envoyer</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
     </div>
     <ul id="connectedUsers">
     </ul>
@@ -124,7 +132,7 @@
     }
 
     function writeMsg(nick, msg) {
-        $('#messages').append($('<div><p>'+nick+'</p><p>'+msg+'</p></div>'));
+        $('#messages').append($('<div><p><div class="font-weight-bold">'+nick+' écrit : </div> '+msg+'</p></div>'));
     }
     
 </script>
