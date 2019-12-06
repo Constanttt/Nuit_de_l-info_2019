@@ -6,6 +6,12 @@
             var socket = io.connect('http://localhost:3000');
             socket.on('display', function(msg){
                 document.getElementById("text").innerHTML = msg;
+                if (msg.length>34){
+                    document.getElementById("text").classList.add("long");
+                }
+                else {
+                    document.getElementById("text").classList.remove("long")
+                }
             });
       </script>
       
@@ -13,6 +19,6 @@
         </script>
     </head>
     <body>
-        <div id="message"><p id="text"><p></div>
+        <div id="message"><p id="text"></p></div>
     </body>
 </html>

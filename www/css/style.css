@@ -58,19 +58,63 @@ input:checked + .slider:before {
 }
 
 #message {
-    background-color: lightseagreen;
-    width: 400px;
-    max-width: 400px;
-    height: 72px;   
-    max-height: 72px; 
-    text-align: center;
-    vertical-align: middle;
+    width: 480px;
+    height: 48px;
+    overflow: hidden;
+    position: relative;
+    background: lightseagreen;
     color: white;
     font-family: sans-serif;
-    font-size: 22px;
-    overflow: hidden;
-}
+    font-size:24px;
+  }
 #message > p {
-    margin: 0;
-    padding: 10px;
+    text-align: center;
+    color: white;
+    font-family: sans-serif;
+    font-size:24px;
+    margin: 10px;
 }
+  .long {
+    position: absolute;
+    width: auto;
+    height: 100%;
+    white-space: nowrap;
+    -moz-transform: translateX(100%);
+    -webkit-transform: translateX(100%);
+    transform: translateX(100%);
+    
+    -moz-animation: scroll-left 10s linear infinite;
+    -webkit-animation: scroll-left 10s linear infinite;
+    animation: scroll-left 10s linear infinite;
+  }
+  
+  @-moz-keyframes scroll-left {
+    0% {
+      -moz-transform: translateX(100%);
+    }
+    100% {
+      -moz-transform: translateX(-100%);
+    }
+  }
+  
+  @-webkit-keyframes scroll-left {
+    0% {
+      -webkit-transform: translateX(100%);
+    }
+    100% {
+      -webkit-transform: translateX(-100%);
+    }
+  }
+  
+  @keyframes scroll-left {
+    0% {
+      -moz-transform: translateX(100%);  
+      -webkit-transform: translateX(100%);
+      transform: translateX(100%);
+    }
+    100% {
+      -moz-transform: translateX(-100%);
+      -webkit-transform: translateX(-100%);
+      transform: translateX(-100%);
+    }
+  }
