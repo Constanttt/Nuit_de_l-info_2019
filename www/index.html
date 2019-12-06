@@ -57,15 +57,23 @@
     </nav>
     <div class=" page-content content">
         <div class=blanck-pad>
-            <div class="blank-screen"> 
+            <div class="blank-screen">
+                <div class=table-scroll>
                 <h1 class="h1 text-dark">Nom de l'appli</h1>
                 <h2 class="h3 text-dark">nom du salon</h2>
 
                 <div id="messages"></div>
-                <form action="">
-                    <label for="sendMsg">Message<input id="sendMsg" autocomplete="off" /></label><button id="sendMsg">Send</button>
-                </form>
-        </div>
+            </div>
+            <form action="">
+                <label for="sendMsg">Message :</label>
+                    <div class="input-group">
+                        <input id="sendMsg" autocomplete="off" />
+                        <div class="input-group-btn"></div>
+                        <button class=" btn btn-light btn-default" id="sendMsg">Envoyer</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
     </div>
     <script src="/Nuit_de_l-info_2019/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
@@ -84,8 +92,8 @@
             var msg = $('#sendMsg').val();
             if (msg != '') {
                 socket.emit('sendMsg', msg);
-                //writeMsg('', msg);
-                //$('#sendMsg').val('');
+                //writeMsg('', sendMsg);
+                $('#sendMsg').val('');
             }
             return false;
         });
@@ -100,7 +108,7 @@
     }
 
     function writeMsg(nick, msg) {
-        $('#messages').append($('<div><p>'+nick+'</p><p>'+msg+'</p></div>'));
+        $('#messages').append($('<div><p><div class="font-weight-bold">'+nick+' écrit : </div> '+msg+'</p></div>'));
     }
 </script>
 </html>

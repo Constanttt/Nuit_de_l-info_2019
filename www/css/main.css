@@ -5,7 +5,7 @@
     overflow-x: hidden;
 }
 .blanck-pad{
-  padding: 4em;
+  padding: 2em;
 }
 
 .blank-screen{
@@ -47,6 +47,6 @@
     font-weight: bold;
 }
 .table-scroll{
-  max-height: calc(100vh - 15.5em);
+  max-height: calc(100vh - 11em);
   overflow: auto;
 }
