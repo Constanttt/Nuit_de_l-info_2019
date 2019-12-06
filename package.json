@@ -1,10 +1,27 @@
 {
-  "name": "nuit de l info",
-  "version": "0.0.1",
-  "description": "Nom de la team",
+  "name": "nuit_de_l-info_2019",
+  "version": "1.0.0",
+  "description": "Nuit de l'info 2019 groupe Nom du groupe",
+  "main": "serveur.js",
   "dependencies": {
     "express": "^4.17.1",
     "nodemon": "^2.0.1",
-    "socket.io": "^2.3.0"
-  }
+    "redis": "^2.8.0",
+    "socket.io": "^2.3.0",
+    "socket.io-redis": "^5.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Constanttt/Nuit_de_l-info_2019.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Constanttt/Nuit_de_l-info_2019/issues"
+  },
+  "homepage": "https://github.com/Constanttt/Nuit_de_l-info_2019#readme"
 }

@@ -1,12 +1,29 @@
-var app = require('express')();
-var http = require('http').Server(app);
-app.get('/', function(req, res){
-    res.sendfile('www/index.html')
+var express = require('express');
+var app = express();
+
+//let http = require('http');
+let fs = require('fs');
+let path = require('path');
+
+let headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'OPTIONS, POST, GET',
+    'Access-Control-Max-Age': 2592000 // 30 days
+  };
+
+var server = require('http').Server(app);
+var io = require('socket.io').listen(server);
+
+app.use('/js',express.static(__dirname+'/www/js'));
+app.use('/css',express.static(__dirname+'/www/css'));
+
+app.get('/',function(req,res){
+    res.sendFile(__dirname+ '/www' +'/index.html');
 });
-http.listen(3000, function(){
-    console.log('listening on *:3000');
+
+server.listen(3000,function(){ // Listens to port 3000
+    console.log('Listening on '+server.address().port);
 });
-var io = require('socket.io')(http);
 
 var usernames = {};
 
