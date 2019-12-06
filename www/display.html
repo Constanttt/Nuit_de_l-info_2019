@@ -1,12 +1,13 @@
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="style.css">
+        <link rel="stylesheet" type="text/css" href="/style.css">
         <script src="/socket.io/socket.io.js"></script>
         <script>
             var socket = io.connect('http://localhost:3000');
             socket.on('display', function(msg){
-                document.getElementById("text").innerHTML = msg;
-                if (msg.length>34){
+                document.getElementById("text").innerHTML = msg.message;
+                document.getElementById("message").style.background= msg.color;
+                if (msg.message.length>34){
                     document.getElementById("text").classList.add("long");
                 }
                 else {

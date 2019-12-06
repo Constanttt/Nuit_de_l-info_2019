@@ -15,7 +15,6 @@ app.get('/webtv/display', function(req, res){
     res.sendfile('www/display.html')
 });
 
-
 app.get('/webtv/control', function(req, res){
     res.sendfile('www/control.html')
 });
@@ -54,10 +53,9 @@ io.on('connection', function(socket){
         socket.broadcast.emit('afficherTexte', text);
     });
     
-    socket.on('message', function(msg,color, img){
+    socket.on('message', function(msg){
         console.log(msg);
-        socket.broadcast.emit('display', {msg,color,img});
+        socket.broadcast.emit('display', msg);
     });
-
 
 });
