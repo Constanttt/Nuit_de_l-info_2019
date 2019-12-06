@@ -7,9 +7,15 @@
             var socket = io.connect('http://localhost:3000');
             socket.on('display', display);
             console.log(display);
+            function AutoRefresh( t ) {
+               setTimeout("location.reload(true);", t);
+            }
+      </script>
+      
+   </head>
         </script>
     </head>
-    <body>
+    <body onload = "JavaScript:AutoRefresh(5000);">
         <div id="message"><p></p></div>
     </body>
 </html>
