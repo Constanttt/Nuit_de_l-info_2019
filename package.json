@@ -4,7 +4,7 @@
   "description": "Nuit de l'info 2019 groupe Nom du groupe",
   "main": "serveur.js",
   "dependencies": {
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "nodemon": "^2.0.1",
     "redis": "^2.8.0",
     "socket.io": "^2.3.0",
